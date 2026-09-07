@@ -65,11 +65,26 @@ Examples:
 404 Not Found - Requested resource was not found,
 500 Internal Server Error - Server had a problem.
 
-
-
 ### 10. What is DNS?
 
 DNS (Domain Name System) converts a domain name into an IP address.
-
 Example:
 example.com → IP address
+
+### 15. What is a Port?
+
+A port is a number used by an application or service to receive network requests.
+Example:
+localhost:8080
+
+### 16. What is Spring Boot?
+
+Spring Boot is a Java framework used to create and run web applications easily.
+Example:
+I used Spring Boot to create a simple web application with a /hello endpoint.
+
+### 17. What is Tomcat?
+
+Tomcat is a web server used to handle HTTP requests and responses for Java web applications.
+Example:
+My Spring Boot application uses an embedded Tomcat server on port 8080.
