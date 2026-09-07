@@ -1,5 +1,3 @@
-# Week 1 - Lab 1
-
 ## 1. GET Request
 
 ### Command
@@ -12,7 +10,7 @@ curl.exe -i https://api.github.com/users/torvalds
 
 #### 200 OK
 
-The request was successful and the GitHub user details were received.
+The request was successful.
 
 ### Response Headers
 
@@ -20,34 +18,36 @@ The request was successful and the GitHub user details were received.
 
 `application/json`
 
-This means the response is in JSON format.
+This means the response data is in JSON format.
 
 #### 2. Cache-Control
 
 `public, max-age=60`
 
-This tells us how the response can be cached.
+This gives information about caching the response.
 
 #### 3. ETag
 
-ETag is used to identify the version of the response.
+ETag is used to identify a version of the response.
 
 ### Response Body
 
 The response body contains the details of the GitHub user `torvalds`.
 
-Some of the fields I observed are:
+Some fields I observed:
 
-- `login` - GitHub username
-- `name` - User name
-- `company` - Company name
-- `location` - User location
-- `public_repos` - Number of public repositories
-- `followers` - Number of followers
+* `login` - GitHub username
+* `name` - User name
+* `company` - Company name
+* `location` - User location
+* `public_repos` - Number of public repositories
+* `followers` - Number of followers
 
 ### Observation
 
-I used the GET request to get the GitHub user details. The request was successful and returned `200 OK`. The response data was in JSON format.
+I used a GET request to get the details of the GitHub user. The server returned `200 OK` and the data was in JSON format.
+
+---
 
 ## 2. Verbose GET Request
 
@@ -56,33 +56,42 @@ I used the GET request to get the GitHub user details. The request was successfu
 ```bash
 curl.exe -v https://httpbin.org/get
 ```
+
 ### Status Code
 
 #### 200 OK
 
-The request was successful and the server returned a response.
+The request was successful.
 
 ### Response Headers
 
-1. Content-Type: application/json
+#### 1. Content-Type
 
-   - The response is in JSON format.
+`application/json`
 
-2. Content-Length: 255
+The response is in JSON format.
 
-   - Shows the size of the response body.
+#### 2. Content-Length
 
-3. Server: gunicorn/19.9.0
+`255`
 
-   - Shows the server software handling the request.
+This shows the size of the response.
+
+#### 3. Server
+
+`gunicorn/19.9.0`
+
+This shows the server software.
 
 ### Response Body
 
-The response body contains information about the request, including the request headers, origin, and URL.
+The response contains information about the request, such as the headers, origin, and URL.
 
 ### Observation
 
-I used the verbose curl command to view the complete request and response details. It showed the connection, HTTP request, response status, headers, and response body.
+I used the verbose curl command to see more details about the request and response. It showed the connection, request, response, headers, and response body.
+
+---
 
 ## 3. POST Request
 
@@ -91,51 +100,114 @@ I used the verbose curl command to view the complete request and response detail
 ```bash
 curl.exe -i -X POST https://httpbin.org/post -H "Content-Type: application/json" -d "{\"name\":\"Arul\",\"week\":1}"
 ```
+
 ### Status Code
 
-**200 OK**
+#### 200 OK
 
-The request was successful and the server returned a response.
+The request was successful.
 
 ### Response Headers
 
-1. **Content-Type:** application/json
-   - The response is in JSON format.
+#### 1. Content-Type
 
-2. **Content-Length:** 255
-   - Shows the size of the response body.
+`application/json`
 
-3. **Server:** gunicorn/19.9.0
-   - Shows the server software handling the request.
+The response is in JSON format.
+
+#### 2. Content-Length
+
+`255`
+
+This shows the size of the response.
+
+#### 3. Server
+
+`gunicorn/19.9.0`
+
+This shows the server software.
 
 ### Response Body
 
-The response body contains information about the request, including the request headers, origin, and URL.
+The response contains the data that I sent and other request information.
 
 ### Observation
 
-I used the verbose curl command to view the complete request and response details. It showed the connection, HTTP request, response status, headers, and response body.
+I used a POST request to send JSON data to the server. The server received the data and returned a response.
+
+---
 
 ## 4. Query Parameters
 
 ### Command
 
 ```bash
-curl.exe -i "https://httpbin.org/get?role=intern&track=python"
+curl.exe -i "https://httpbin.org/get?role=intern&track=java"
 ```
-Status Code
 
-200 OK
+### Status Code
 
-The request was successful and the server returned a response.
+#### 200 OK
 
-Query Parameters
-role=intern - Specifies the role as intern.
-track=java - Specifies the learning track as Java.
-Response Body
+The request was successful.
 
-The response body contains the query parameters sent with the GET request.
+### Query Parameters
 
-Observation
+* `role=intern` - The role is intern.
+* `track=java` - The learning track is Java.
 
-I used query parameters in the URL to send additional information to the server. The response showed the values of role and track in JSON format.
+### Response Body
+
+The response contains the query parameters that I sent.
+
+### Observation
+
+I used query parameters to send extra information to the server through the URL. The server returned the values in JSON format.
+
+---
+
+## 5. Non-Existing User
+
+### Command
+
+```bash
+curl.exe -i https://api.github.com/users/this-user-does-not-exist-99999
+```
+
+### Status Code
+
+#### 404 Not Found
+
+The requested user was not found.
+
+### Response Headers
+
+I observed response headers from the server, including:
+
+* `Content-Type` - Shows the response format.
+* `Cache-Control` - Gives information about caching.
+* `X-GitHub-Request-Id` - Identifies the request.
+
+### Response Body
+
+The response contains an error message saying that the user was not found.
+
+### Observation
+
+I requested a GitHub user that does not exist. The server returned `404 Not Found` because the requested user was not available.
+
+---
+
+## Postman Verification
+
+### GET Request
+
+I sent the same GET request using Postman. I received a successful response with `200 OK`.
+
+### POST Request
+
+I sent the same POST request using Postman with the JSON data. The request was successful and I received a response from the server.
+
+### Final Observation
+
+I learned how to use GET and POST requests with curl. I also learned how to use query parameters, read response headers, understand status codes, and send JSON data.
