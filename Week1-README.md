@@ -1,14 +1,14 @@
-# Week 1 Learning
+## What I Learned from Week-1
 
-In Week 1, I learned the basic concepts of Linux and web systems.
+Through this practical work, I gained a basic understanding of:
 
-### Topics I Learned
-
-- WSL and its relation to Linux
-- Difference between Linux and Unix
-- Public IP and Private IP
-- Client and Server
-- Web Server
-- Basic understanding of how web applications communicate
-
-I gained a basic understanding of these concepts and how they are used in real-world applications.
+1. Client and Server Communication
+2. HTTP Requests and Responses
+3. HTTP Methods
+4. HTTP Status Codes
+5. DNS and Ports
+6. REST APIs
+7. HTTPS and TLS
+8. Spring Boot
+9. Tomcat
+10. How a Request Reaches My Spring Boot Application
