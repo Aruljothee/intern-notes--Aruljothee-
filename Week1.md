@@ -16,13 +16,13 @@ The request was successful.
 
 #### 1. Content-Type
 
-`application/json`
+application/json
 
 This means the response data is in JSON format.
 
 #### 2. Cache-Control
 
-`public, max-age=60`
+public, max-age=60
 
 This gives information about caching the response.
 
@@ -32,20 +32,20 @@ ETag is used to identify a version of the response.
 
 ### Response Body
 
-The response body contains the details of the GitHub user `torvalds`.
+The response body contains the details of the GitHub user torvalds.
 
 Some fields I observed:
 
-* `login` - GitHub username
-* `name` - User name
-* `company` - Company name
-* `location` - User location
-* `public_repos` - Number of public repositories
-* `followers` - Number of followers
+* login - GitHub username
+* name - User name
+* company - Company name
+* location - User location
+* public_repos - Number of public repositories
+* followers - Number of followers
 
 ### Observation
 
-I used a GET request to get the details of the GitHub user. The server returned `200 OK` and the data was in JSON format.
+I used a GET request to get the details of the GitHub user. The server returned 200 OK and the data was in JSON format.
 
 ---
 
@@ -67,19 +67,19 @@ The request was successful.
 
 #### 1. Content-Type
 
-`application/json`
+application/json
 
 The response is in JSON format.
 
 #### 2. Content-Length
 
-`255`
+255
 
 This shows the size of the response.
 
 #### 3. Server
 
-`gunicorn/19.9.0`
+gunicorn/19.9.0
 
 This shows the server software.
 
@@ -111,19 +111,19 @@ The request was successful.
 
 #### 1. Content-Type
 
-`application/json`
+application/json
 
 The response is in JSON format.
 
 #### 2. Content-Length
 
-`255`
+255
 
 This shows the size of the response.
 
 #### 3. Server
 
-`gunicorn/19.9.0`
+gunicorn/19.9.0
 
 This shows the server software.
 
@@ -153,8 +153,8 @@ The request was successful.
 
 ### Query Parameters
 
-* `role=intern` - The role is intern.
-* `track=java` - The learning track is Java.
+* role=intern - The role is intern.
+* track=java - The learning track is Java.
 
 ### Response Body
 
@@ -184,9 +184,9 @@ The requested user was not found.
 
 I observed response headers from the server, including:
 
-* `Content-Type` - Shows the response format.
-* `Cache-Control` - Gives information about caching.
-* `X-GitHub-Request-Id` - Identifies the request.
+* Content-Type - Shows the response format.
+* Cache-Control - Gives information about caching.
+* X-GitHub-Request-Id - Identifies the request.
 
 ### Response Body
 
@@ -194,7 +194,7 @@ The response contains an error message saying that the user was not found.
 
 ### Observation
 
-I requested a GitHub user that does not exist. The server returned `404 Not Found` because the requested user was not available.
+I requested a GitHub user that does not exist. The server returned 404 Not Found because the requested user was not available.
 
 ---
 
@@ -202,7 +202,7 @@ I requested a GitHub user that does not exist. The server returned `404 Not Foun
 
 ### GET Request
 
-I sent the same GET request using Postman. I received a successful response with `200 OK`.
+I sent the same GET request using Postman. I received a successful response with 200 O`.
 
 ### POST Request
 
