@@ -180,14 +180,6 @@ curl.exe -i https://api.github.com/users/this-user-does-not-exist-99999
 
 The requested user was not found.
 
-### Response Headers
-
-I observed response headers from the server, including:
-
-* Content-Type - Shows the response format.
-* Cache-Control - Gives information about caching.
-* X-GitHub-Request-Id - Identifies the request.
-
 ### Response Body
 
 The response contains an error message saying that the user was not found.
