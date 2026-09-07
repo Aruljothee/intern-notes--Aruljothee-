@@ -194,7 +194,7 @@ I requested a GitHub user that does not exist. The server returned 404 Not Found
 
 ### GET Request
 
-I sent the same GET request using Postman. I received a successful response with 200 O`.
+I sent the same GET request using Postman. I received a successful response.
 
 ### POST Request
 
