@@ -131,7 +131,7 @@ The request was successful and the server returned a response.
 
 Query Parameters
 role=intern - Specifies the role as intern.
-track=python - Specifies the learning track as Python.
+track=java - Specifies the learning track as Java.
 Response Body
 
 The response body contains the query parameters sent with the GET request.
