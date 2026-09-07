@@ -50,3 +50,26 @@ It commenly uses HTTP methods such as:
 5) DELETE - remove data
 example:
 GET /products (used to retrieve products).
+
+### 9. What are HTTP Status Codes?
+
+HTTP status codes tell us what happened to the request.
+
+Examples:
+
+200 OK - Request was successful
+201 Created - New data was created
+400 Bad Request - Request was incorrect
+401 Unauthorized - Login is required
+403 Forbidden - Access is not allowed
+404 Not Found - Requested resource was not found
+500 Internal Server Error - Server had a problem
+
+
+
+### 10. What is DNS?
+
+DNS (Domain Name System) converts a domain name into an IP address.
+
+Example:
+example.com → IP address
