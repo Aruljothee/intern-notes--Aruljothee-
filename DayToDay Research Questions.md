@@ -235,32 +235,6 @@ The `@Configuration` annotation marks a configuration class.
 
 Annotations help Spring and other Java tools understand how classes, methods, and fields should be handled.
 
-### 9.3 Python Decorators
-
-A decorator is a Python feature that modifies or extends the behavior of a function or class.
-
-A decorator adds functionality to a function without changing the function's main code.
-
-### 9.4 Common FastAPI Example
-
-```python
-from fastapi import APIRouter
-
-router = APIRouter()
-
-@router.get("/users")
-def get_users():
-    return {"message": "List of users"}
-```
-
-### 9.5 What Is `@router.get()` in FastAPI?
-
-`@router.get("/users")` is a decorator method that registers the function as a GET API endpoint.
-
-**Simple explanation:**
-
-`@router.get("/users")` tells FastAPI to call the `get_users()` function when a GET request is sent to `/users` on that router.
-
 ---
 
 ## 10. What Is Lombok in Java?
