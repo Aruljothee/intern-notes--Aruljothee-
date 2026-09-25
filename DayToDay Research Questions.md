@@ -79,8 +79,6 @@ Spring Boot applications commonly separate responsibilities into different layer
 
 **Security Layer:** Handles authentication and authorization configuration.
 
-**Simple explanation:**
-
 Each layer performs a specific task, making the application easier to understand, test, and maintain.
 
 ### Application Flow
@@ -113,8 +111,6 @@ SOLID is a group of five principles used to create maintainable and flexible obj
 
 **D – Dependency Inversion Principle:** High-level code should depend on abstractions rather than concrete implementations.
 
-**Simple explanation:**
-
 SOLID principles help developers write clean, flexible, and maintainable code.
 
 ---
@@ -140,8 +136,6 @@ The `.build()` method builds the final `ResponseEntity`.
 This code is not, by itself, a complete implementation of a formal design pattern such as Singleton or Factory Method.
 
 It uses a fluent API and a factory-style method to construct the response.
-
-**Simple explanation for your boss:**
 
 This code creates and returns a 404 Not Found HTTP response when the requested resource does not exist.
 
@@ -187,8 +181,6 @@ Verbose mode displays additional details about the request and response.
 
 When we execute cURL in verbose mode, we can observe DNS resolution or hostname processing, TCP connection details, request headers, response headers, the HTTP status code, and the response body.
 
-**Simple explanation:**
-
 cURL verbose mode helps us understand how the client communicates with the server at the HTTP and network level.
 
 **Important:** Verbose output may expose sensitive request headers or credentials. Avoid sharing it publicly without removing secrets.
@@ -202,8 +194,6 @@ Passwords should not be included in URLs or query parameters because URLs may be
 Passwords are commonly sent in the request body for login or registration requests.
 
 Passwords or authentication credentials may also be sent through appropriate authorization headers, such as Basic Authentication or Bearer token authentication.
-
-**Simple explanation:**
 
 Passwords are generally sent in the request body or appropriate authentication headers instead of the URL to reduce accidental exposure through logs and browser history.
 
@@ -242,8 +232,6 @@ The `@Entity` annotation marks a class as a JPA entity.
 The `@Autowired` annotation requests dependency injection.
 
 The `@Configuration` annotation marks a configuration class.
-
-**Simple explanation:**
 
 Annotations help Spring and other Java tools understand how classes, methods, and fields should be handled.
 
@@ -291,8 +279,6 @@ The `@AllArgsConstructor` annotation generates a constructor with all fields.
 
 The `@RequiredArgsConstructor` annotation generates a constructor for required fields, such as final fields.
 
-**Simple explanation:**
-
 Lombok helps reduce boilerplate code by automatically generating common Java methods.
 
 **Important:** `@Data` also generates `toString()`, which can expose sensitive fields such as passwords if you log the object. Avoid using it carelessly for credential-containing entities.
@@ -321,8 +307,6 @@ public class UserService {
 }
 ```
 
-**Simple explanation:**
-
 Spring creates the `UserRepository` object and provides it to the `UserService` through the constructor.
 
 ### 11.3 How It Works
@@ -334,8 +318,6 @@ Creates UserRepository
       ↓
 Injects into UserService
 ```
-
-**Simple explanation for your boss:**
 
 Dependency Injection allows Spring Boot to provide required objects automatically, so we do not need to manually create them using `new` everywhere.
 
@@ -356,8 +338,6 @@ The most commonly used loopback address is `127.0.0.1`.
 ```text
 http://127.0.0.1:8080
 ```
-
-**Simple explanation:**
 
 127.0.0.1 points back to the same computer where the request is running.
 
@@ -391,8 +371,6 @@ Plaintext + Secret Key
 Plaintext + Same Secret Key
 ```
 
-**Simple explanation:**
-
 Symmetric encryption uses one shared secret key to encrypt and decrypt data.
 
 **Example:** AES.
@@ -403,8 +381,6 @@ A public key is a key that can be shared with others in a public-key cryptosyste
 
 It can be used for encryption or signature verification, depending on the algorithm and operation.
 
-**Simple explanation:**
-
 A public key can be shared publicly and is used in asymmetric cryptography for operations such as encryption or signature verification.
 
 ### 13.3 What Is a Private Key?
@@ -413,8 +389,6 @@ A private key is a secret key that must be protected by its owner.
 
 It can be used for decryption or creating digital signatures, depending on the cryptographic algorithm.
 
-**Simple explanation:**
-
 A private key must be kept secret and is used for operations such as decryption or signing.
 
 ### 13.4 What Is Asymmetric Encryption?
@@ -422,8 +396,6 @@ A private key must be kept secret and is used for operations such as decryption 
 Asymmetric cryptography uses a pair of related keys.
 
 The two keys are called the public key and the private key.
-
-**Simple explanation:**
 
 Asymmetric cryptography uses two related keys instead of one shared secret key.
 
@@ -447,8 +419,6 @@ It is commonly used in HTTPS to help a browser verify the identity of a server.
 
 A digital certificate may contain subject or identity information, a public key, issuer information, a validity period, and a digital signature from the certificate issuer.
 
-**Simple explanation:**
-
 A digital certificate helps a browser verify that a public key belongs to the identity mentioned in the certificate.
 
 ---
@@ -464,8 +434,6 @@ A Certificate Authority validates identity according to the certificate type and
 It issues digital certificates and digitally signs them.
 
 It also supports certificate trust and lifecycle processes.
-
-**Simple explanation:**
 
 A Certificate Authority issues digital certificates and helps browsers verify trusted identities.
 
@@ -487,15 +455,11 @@ Certificate trust depends on the CA and trust chain recognized by the client. A 
 
 Base64 is a method of converting binary data into text using a defined set of characters.
 
-**Simple explanation:**
-
 Base64 encoding converts data into a text representation that is easier to transmit in systems designed for text.
 
 ### 16.2 Base64 Decoding
 
 Decoding converts Base64 text back into the original bytes.
-
-**Simple explanation:**
 
 Base64 decoding converts Base64-encoded data back into its original byte representation.
 
