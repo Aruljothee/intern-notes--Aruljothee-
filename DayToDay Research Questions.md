@@ -38,8 +38,6 @@ Swagger and OpenAPI are used to document REST APIs, understand API endpoints, te
 
 ## 3. What Is Boilerplate Code?
 
-### Definition
-
 Boilerplate code is repetitive code that developers write in many applications to perform common tasks.
 
 ### 3.1 How Is Boilerplate Code Related to Frameworks and Libraries?
