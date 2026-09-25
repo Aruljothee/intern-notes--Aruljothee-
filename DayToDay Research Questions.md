@@ -1,4 +1,4 @@
-```
+
 TECHNICAL RESEARCH NOTES
 
 1. Hibernate and ORM in Spring Boot
