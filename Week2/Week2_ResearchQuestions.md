@@ -1,5 +1,3 @@
-# Research Deliverable – Set 2
-
 ## Fundamentals, Revisited Deeper
 
 ### 1. Front End vs Back End
