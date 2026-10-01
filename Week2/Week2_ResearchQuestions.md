@@ -32,8 +32,6 @@ The business logic tier processes the user's request and performs the required o
 
 The data tier communicates with the database. For example, MySQL can store application data.
 
-```
-
 The user enters registration details in the front end. The request goes to the Spring Boot application. The service processes the information, and the repository stores the data in MySQL.
 
 ---
@@ -160,8 +158,6 @@ Authentication normally happens before authorization.
 
 **Deserialization** is the opposite process. It converts received data back into an object that the application can use.
 
-```
-
 APIs need serialization and deserialization because different applications need to exchange data. For example, a React application and a Spring Boot application can exchange information using JSON.
 
 ---
@@ -180,13 +176,12 @@ JSON is one of the most commonly used formats in modern REST APIs because it is 
 
 For example:
 
-```json
+json:
 {
   "name": "Arul",
   "age": 20,
   "city": "Chennai"
 }
-```
 
 JSON is commonly used in REST APIs. A server can return JSON in an HTTP response with a content type such as `application/json`.
 
@@ -194,13 +189,13 @@ JSON is commonly used in REST APIs. A server can return JSON in an HTTP response
 
 For example:
 
-```xml
+xml
 <user>
     <name>Arul</name>
     <age>20</age>
     <city>Chennai</city>
 </user>
-```
+
 
 XML can also be used to exchange data between applications.
 
@@ -244,9 +239,8 @@ A **query parameter** is additional information added to the URL after a questio
 
 For example:
 
-```text
+text:
 GET /users?name=arul
-```
 
 Here, `name=arul` is a query parameter.
 
@@ -256,17 +250,15 @@ A **path variable** is a value included directly in the URL path.
 
 For example:
 
-```text
+text:
 GET /users/10
-```
 
 Here, `10` is the path variable. It can identify a specific user.
 
 In Spring Boot, it can be written as:
 
-```java
+java:
 @GetMapping("/users/{id}")
-```
 
 The `{id}` represents the path variable.
 
@@ -274,15 +266,13 @@ The main difference is that query parameters are generally used to provide optio
 
 For example:
 
-```text
+text:
 /users/10
-```
 
 means to access user number 10.
 
-```text
+text:
 /users?name=arul
-```
 
 means to find users based on the name Arul.
 
@@ -290,12 +280,12 @@ A **request payload** is the data sent by the client to the server in the reques
 
 For example:
 
-```json
+json:
 {
   "username": "arul",
   "password": "1234"
 }
-```
+
 
 This data can be sent when creating or updating a user.
 
@@ -315,11 +305,10 @@ In simple words:
 
 For example:
 
-```text
+text:
 Content-Type: application/json
 Authorization: Bearer token
 Accept: application/json
-```
 
 The `Content-Type` header tells the server what type of data is being sent. The `Authorization` header can contain authentication information. The `Accept` header tells the server what type of response the client can accept.
 
@@ -327,9 +316,8 @@ The `Content-Type` header tells the server what type of data is being sent. The 
 
 For example:
 
-```text
+text:
 Content-Type: application/json
 Cache-Control: no-cache
-```
 
 The response headers provide information about the response, such as the type of data being returned and caching instructions.
