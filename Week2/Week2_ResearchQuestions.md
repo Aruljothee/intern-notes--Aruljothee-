@@ -1,5 +1,3 @@
-## Fundamentals, Revisited Deeper
-
 ### 1. Front End vs Back End
 
 **Front End** is the part of a web application that the user can see and interact with. It includes buttons, forms, menus, web pages, and images. Common front-end technologies are HTML, CSS, JavaScript, React, and Angular.
