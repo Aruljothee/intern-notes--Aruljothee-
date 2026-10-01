@@ -289,14 +289,6 @@ json:
 
 This data can be sent when creating or updating a user.
 
-In simple words:
-
-> Query parameter = Extra information in the URL.
-
-> Path variable = Resource identifier in the URL.
-
-> Request payload = Data sent in the request body.
-
 ---
 
 ## 5. Request Headers and Response Headers
