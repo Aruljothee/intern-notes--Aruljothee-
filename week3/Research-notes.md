@@ -16,7 +16,7 @@
 
 ## 2. Contact Class
 
-- `Contact` is a class used to represent one contact.
+- Contact is a class used to represent one contact.
 - It contains contact information such as:
   - Name
   - Phone number
@@ -41,7 +41,7 @@ Contact c = new Contact("Arun", "9876543210");
 
 ## 3. Map<String, Contact>
 
-- `Map` stores data in the form of **key-value pairs**.
+- Map stores data in the form of **key-value pairs**.
 - In this project:
   - Key → Contact name
   - Value → Contact object
@@ -52,16 +52,16 @@ Example:
 Map<String, Contact> contacts = new HashMap<>();
 ```
 
-- `String` represents the name.
-- `Contact` represents the contact object.
+- String represents the name.
+- Contact represents the contact object.
 
 ### Important Map methods
 
-- `put()` → adds a contact.
-- `get()` → gets a contact.
-- `remove()` → deletes a contact.
-- `containsKey()` → checks whether a contact exists.
-- `values()` → gets all contact objects.
+- put() → adds a contact.
+- get() → gets a contact.
+- remove() → deletes a contact.
+- containsKey() → checks whether a contact exists.
+- values() → gets all contact objects.
 
 Example:
 
@@ -73,7 +73,7 @@ contacts.put("Arun", contact);
 
 ## 4. HashMap
 
-- `HashMap` is a class that implements the `Map` interface.
+- HashMap is a class that implements the Map interface.
 - It stores data as key-value pairs.
 - It allows fast searching using keys.
 - In our project, the contact name is used as the key.
@@ -90,9 +90,9 @@ Map<String, Contact> contacts = new HashMap<>();
 
 - The menu should be displayed repeatedly.
 - A loop is used to keep the menu running.
-- `while(true)` can be used for the continuous loop.
+- while(true) can be used for the continuous loop.
 - The loop stops when the user chooses **Quit**.
-- `break` or `return` can be used to stop the loop.
+- break or return can be used to stop the loop.
 
 Menu options:
 
@@ -108,8 +108,8 @@ Menu options:
 
 - User enters the contact name.
 - User enters the phone number.
-- A `Contact` object is created.
-- The object is stored in the `Map`.
+- A Contact object is created.
+- The object is stored in the Map.
 - Empty names should not be accepted.
 
 Example:
@@ -122,9 +122,9 @@ contacts.put(name, new Contact(name, phone));
 
 ## 7. List Contacts
 
-- Displays all contacts stored in the `Map`.
-- A `for` loop can be used to display the contacts.
-- `contacts.values()` returns all contact objects.
+- Displays all contacts stored in the Map.
+- A for loop can be used to display the contacts.
+- contacts.values() returns all contact objects.
 - If there are no contacts, display:
 
 ```text
@@ -136,7 +136,7 @@ No contacts found.
 ## 8. Find Contact
 
 - User enters the contact name.
-- `get()` is used to search for the contact.
+- get() is used to search for the contact.
 
 ```java
 Contact contact = contacts.get(name);
@@ -155,7 +155,7 @@ Contact not found.
 
 - User enters the contact name.
 - Check whether the contact exists.
-- `remove()` is used to delete the contact.
+- remove() is used to delete the contact.
 
 ```java
 contacts.remove(name);
@@ -173,12 +173,12 @@ Contact not found.
 
 - Exception handling is used to handle errors during program execution.
 - Java uses:
-  - `try`
-  - `catch`
-  - `finally`
-  - `throw`
-  - `throws`
-- In this project, `try-catch` is mainly used for invalid input.
+  - try
+  - catch
+  - finally
+  - throw
+  - throws
+- In this project, try-catch is mainly used for invalid input.
 
 Example:
 
@@ -194,7 +194,7 @@ try {
 
 ## 11. InputMismatchException
 
-- `InputMismatchException` occurs when the entered input does not match the expected data type.
+- InputMismatchException occurs when the entered input does not match the expected data type.
 - Example:
   - Program expects an integer.
   - User enters text.
@@ -211,16 +211,16 @@ If the user enters:
 abc
 ```
 
-an `InputMismatchException` can occur.
+an InputMismatchException can occur.
 
-- `try-catch` prevents the program from crashing.
+- try-catch prevents the program from crashing.
 
 ---
 
 ## 12. Scanner
 
-- `Scanner` is used to get input from the user.
-- It is available in the `java.util` package.
+- Scanner is used to get input from the user.
+- It is available in the java.util package.
 
 Example:
 
@@ -254,7 +254,7 @@ This is invalid:
 age = "hello";
 ```
 
-because `age` is an integer.
+because age is an integer.
 
 ### What does the compiler catch?
 
@@ -291,7 +291,7 @@ void add(int a, int b, int c) {
 - Overriding occurs between a parent class and child class.
 - The child class provides its own implementation of a parent method.
 - The method name and parameters remain the same.
-- `@Override` annotation is commonly used.
+- @Override annotation is commonly used.
 - It is related to runtime polymorphism.
 
 Example:
@@ -317,7 +317,7 @@ class Dog extends Animal {
 
 - A class is a blueprint for creating objects.
 - It defines the properties and methods of an object.
-- In this project, `Contact` is a class.
+- In this project, Contact is a class.
 
 Example:
 
@@ -334,7 +334,7 @@ class Contact {
 
 - An object is an instance of a class.
 - It contains the data and behavior defined by the class.
-- A `Contact` object represents one contact.
+- A Contact object represents one contact.
 
 Example:
 
@@ -372,7 +372,7 @@ class Contact {
 
 - Encapsulation means wrapping data and methods together inside a class.
 - It helps protect the data from direct access.
-- `private` variables and public getter/setter methods are commonly used.
+- private variables and public getter/setter methods are commonly used.
 
 Example:
 
@@ -404,8 +404,8 @@ Map<String, Contact> contacts = new HashMap<>();
 ```
 
 - Here:
-  - `Map` → interface
-  - `HashMap` → implementation
+  - Map → interface
+  - HashMap → implementation
 
 ---
 
@@ -454,7 +454,7 @@ class Dog extends Animal {
 
 ## 23. `break`
 
-- `break` is used to stop a loop or switch statement.
+- break is used to stop a loop or switch statement.
 - In the Contact Book, it can be used to exit the menu loop.
 
 Example:
@@ -469,8 +469,8 @@ if (choice == 5) {
 
 ## 24. `return`
 
-- `return` is used to exit from a method.
-- It can also be used to stop the `main()` method and end the program.
+- return is used to exit from a method.
+- It can also be used to stop the main() method and end the program.
 
 Example:
 
@@ -484,7 +484,7 @@ if (choice == 5) {
 
 ## 25. `this` Keyword
 
-- `this` refers to the current object.
+- this refers to the current object.
 - It is commonly used when constructor parameters and instance variables have the same name.
 
 Example:
@@ -500,14 +500,14 @@ class Contact {
 }
 ```
 
-- `this.name` refers to the object's instance variable.
-- `name` refers to the constructor parameter.
+- this.name refers to the object's instance variable.
+- name refers to the constructor parameter.
 
 ---
 
 ## 26. `@Override` Annotation
 
-- `@Override` is used when a child class overrides a parent class method.
+- @Override is used when a child class overrides a parent class method.
 - It tells the compiler that the method is intended to override a parent method.
 - It helps detect mistakes in method overriding.
 
