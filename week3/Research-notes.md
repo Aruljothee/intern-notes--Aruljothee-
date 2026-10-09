@@ -226,11 +226,9 @@ Example:
 
 ```java
 Scanner scanner = new Scanner(System.in);
-
-- `nextInt()` → reads an integer.
-- `nextLine()` → reads a complete line.
-- `next()` → reads one word.
-
----
 ```
+- nextInt() → reads an integer.
+- nextLine() → reads a complete line.
+- next() → reads one word.
+
 
