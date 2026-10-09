@@ -232,4 +232,5 @@ Scanner scanner = new Scanner(System.in);
 - `next()` → reads one word.
 
 ---
+```
 
