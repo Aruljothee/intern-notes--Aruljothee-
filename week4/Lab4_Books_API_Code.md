@@ -1,4 +1,4 @@
-# Lab 4 --- Books REST API
+# Books REST API
 
 ## 1. GlobalExceptionHandler.java
 
