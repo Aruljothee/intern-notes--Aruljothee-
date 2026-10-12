@@ -2,7 +2,7 @@
 
 ## 1. GlobalExceptionHandler.java
 
-**Package:** `com.lab4.books_api.exception`
+**Package:** com.lab4.books_api.exception
 
 ``` java
 package com.lab4.books_api.exception;
@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
 
 ## 2. Book.java
 
-**Package:** `com.lab4.books_api.model`
+**Package:** com.lab4.books_api.model
 
 ``` java
 package com.lab4.books_api.model;
@@ -119,7 +119,7 @@ public class Book {
 
 ## 3. BookRepository.java
 
-**Package:** `com.lab4.books_api.repository`
+**Package:** com.lab4.books_api.repository
 
 ``` java
 package com.lab4.books_api.repository;
@@ -134,7 +134,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
 ## 4. BookService.java
 
-**Package:** `com.lab4.books_api.service`
+**Package:** com.lab4.books_api.service
 
 ``` java
 package com.lab4.books_api.service;
@@ -191,7 +191,7 @@ public class BookService {
 
 ## 5. BookNotFoundException.java
 
-**Package:** `com.lab4.books_api.service`
+**Package:** com.lab4.books_api.service
 
 ``` java
 package com.lab4.books_api.service;
@@ -206,7 +206,7 @@ public class BookNotFoundException extends RuntimeException {
 
 ## 6. BookController.java
 
-**Package:** `com.lab4.books_api.controller`
+**Package:** com.lab4.books_api.controller
 
 ``` java
 package com.lab4.books_api.controller;
@@ -347,7 +347,7 @@ public class BookController {
 
 ## 8. application.properties
 
-**Location:** `src/main/resources/application.properties`
+**Location:** src/main/resources/application.properties
 
 ``` properties
 spring.application.name=books-api
@@ -363,27 +363,27 @@ spring.jpa.open-in-view=false
 
 ## API endpoints
 
-  Method   Endpoint            Purpose         Expected success status
+  Method    Endpoint             Purpose         Expected success status
   -------- ------------------- --------------- -------------------------
-  GET      `/api/books`        Get all books   200 OK
-  GET      `/api/books/{id}`   Get one book    200 OK
-  POST     `/api/books`        Create a book   201 Created
-  PUT      `/api/books/{id}`   Update a book   200 OK
-  DELETE   `/api/books/{id}`   Delete a book   204 No Content
+  GET      /api/books           Get all books   200 OK
+  GET      /api/books/{id}      Get one book    200 OK
+  POST     /api/books           Create a book   201 Created
+  PUT      /api/books/{id}      Update a book   200 OK
+  DELETE   /api/books/{id}      Delete a book   204 No Content
 
 ## Notes
 
--   `Book` is the JPA entity that maps to the `books` database table.
--   `BookRepository` provides database operations through Spring Data
+-   Book is the JPA entity that maps to the books database table.
+-   BookRepository provides database operations through Spring Data
     JPA.
--   `BookService` contains the application's book-related logic.
--   `BookController` exposes the REST endpoints.
--   `BookNotFoundException` represents a requested book that does not
+-   BookService contains the application's book-related logic.
+-   BookController exposes the REST endpoints.
+-   BookNotFoundException represents a requested book that does not
     exist.
--   `GlobalExceptionHandler` returns HTTP 404 when
-    `BookNotFoundException` is thrown.
+-   GlobalExceptionHandler returns HTTP 404 when
+    BookNotFoundException is thrown.
 -   The database URL, username, and password are read from environment
-    variables. Set `DB_URL`, `DB_USERNAME`, and `DB_PASSWORD` before
+    variables. Set DB_URL, DB_USERNAME, and DB_PASSWORD before
     starting the application.
 -   The project uses Java 17 and Spring Boot 3.4.13 as specified in
-    `pom.xml`.
+    pom.xml.
