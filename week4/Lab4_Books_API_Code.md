@@ -4,7 +4,7 @@
 
 **Package:** com.lab4.books_api.exception
 
-``` java
+ java
 package com.lab4.books_api.exception;
 
 import java.util.Map;
@@ -27,13 +27,13 @@ public class GlobalExceptionHandler {
                 .body(Map.of("error", ex.getMessage()));
     }
 }
-```
+
 
 ## 2. Book.java
 
 **Package:** com.lab4.books_api.model
 
-``` java
+ java
 package com.lab4.books_api.model;
 
 import jakarta.persistence.Column;
@@ -115,13 +115,13 @@ public class Book {
         this.publishedYear = publishedYear;
     }
 }
-```
+
 
 ## 3. BookRepository.java
 
 **Package:** com.lab4.books_api.repository
 
-``` java
+ java
 package com.lab4.books_api.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -130,13 +130,13 @@ import com.lab4.books_api.model.Book;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 }
-```
+
 
 ## 4. BookService.java
 
 **Package:** com.lab4.books_api.service
 
-``` java
+ java
 package com.lab4.books_api.service;
 
 import java.util.List;
@@ -187,13 +187,13 @@ public class BookService {
         bookRepository.delete(book);
     }
 }
-```
+
 
 ## 5. BookNotFoundException.java
 
 **Package:** com.lab4.books_api.service
 
-``` java
+ java
 package com.lab4.books_api.service;
 
 public class BookNotFoundException extends RuntimeException {
@@ -202,13 +202,13 @@ public class BookNotFoundException extends RuntimeException {
         super("Book not found with ID: " + id);
     }
 }
-```
+
 
 ## 6. BookController.java
 
 **Package:** com.lab4.books_api.controller
 
-``` java
+java
 package com.lab4.books_api.controller;
 
 import java.util.List;
@@ -270,11 +270,11 @@ public class BookController {
         return ResponseEntity.noContent().build();
     }
 }
-```
+
 
 ## 7. pom.xml
 
-``` xml
+ xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -343,13 +343,13 @@ public class BookController {
     </build>
 
 </project>
-```
+
 
 ## 8. application.properties
 
 **Location:** src/main/resources/application.properties
 
-``` properties
+properties
 spring.application.name=books-api
 
 spring.datasource.url=${DB_URL}
@@ -359,7 +359,7 @@ spring.datasource.password=${DB_PASSWORD}
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 spring.jpa.open-in-view=false
-```
+
 
 ## API endpoints
 
