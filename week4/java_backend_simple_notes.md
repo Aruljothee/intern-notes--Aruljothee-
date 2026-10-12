@@ -40,7 +40,6 @@
 
 - DI means providing required objects to a class instead of creating
   them inside the class.
-- **FastAPI:** `Depends()`
 - **Spring Boot:** Constructor injection.
 
 ## 8. Separation of Concerns
@@ -77,7 +76,6 @@ java -jar app.jar --server.port=9090
 
 - Automatically generates getters, setters, `toString()`, `equals()`,
   and `hashCode()`.
-- Python equivalent: `@dataclass` provides similar functionality.
 
 ## 13. ResponseEntity
 
@@ -90,7 +88,6 @@ return ResponseEntity.notFound().build();
 - Method chaining makes the code readable and creates the response
   step by step.
 
-## Quick Revision
 
 - **Controller** → Request
 - **Service** → Logic
