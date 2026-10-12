@@ -1,0 +1,283 @@
+# Books REST API
+
+## 1. GlobalExceptionHandler.java
+
+Package: com.lab4.books_api.exception
+
+```java
+package com.lab4.books_api.exception;
+
+import java.util.Map;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import com.lab4.books_api.service.BookNotFoundException;
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(BookNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleBookNotFound(
+            BookNotFoundException ex) {
+        return ResponseEntity
+                .status(404)
+                .body(Map.of("error", ex.getMessage()));
+    }
+}
+```
+
+## 2. Book.java
+
+Package: com.lab4.books_api.model
+
+```java
+package com.lab4.books_api.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+@Entity
+@Table(name = "books")
+public class Book {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotBlank(message = "Title is required")
+    @Size(max = 150)
+    private String title;
+
+    @NotBlank(message = "Author is required")
+    @Size(max = 100)
+    private String author;
+
+    @NotBlank(message = "ISBN is required")
+    @Size(max = 20)
+    @Column(unique = true)
+    private String isbn;
+
+    @Min(value = 1)
+    @Max(value = 2100)
+    private Integer publishedYear;
+
+    public Book() {
+    }
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+
+    public String getAuthor() { return author; }
+    public void setAuthor(String author) { this.author = author; }
+
+    public String getIsbn() { return isbn; }
+    public void setIsbn(String isbn) { this.isbn = isbn; }
+
+    public Integer getPublishedYear() { return publishedYear; }
+    public void setPublishedYear(Integer publishedYear) {
+        this.publishedYear = publishedYear;
+    }
+}
+```
+
+## 3. BookRepository.java
+
+Package: com.lab4.books_api.repository
+
+```java
+package com.lab4.books_api.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.lab4.books_api.model.Book;
+
+public interface BookRepository extends JpaRepository<Book, Long> {
+}
+```
+
+## 4. BookService.java
+
+Package: com.lab4.books_api.service
+
+```java
+package com.lab4.books_api.service;
+
+import java.util.List;
+import org.springframework.stereotype.Service;
+import com.lab4.books_api.model.Book;
+import com.lab4.books_api.repository.BookRepository;
+
+@Service
+public class BookService {
+
+    private final BookRepository bookRepository;
+
+    public BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
+
+    public List<Book> getAllBooks() {
+        return bookRepository.findAll();
+    }
+
+    public Book getBookById(Long id) {
+        return bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException(id));
+    }
+
+    public Book createBook(Book book) {
+        book.setId(null);
+        return bookRepository.save(book);
+    }
+
+    public Book updateBook(Long id, Book updatedBook) {
+        Book existingBook = getBookById(id);
+        existingBook.setTitle(updatedBook.getTitle());
+        existingBook.setAuthor(updatedBook.getAuthor());
+        existingBook.setIsbn(updatedBook.getIsbn());
+        existingBook.setPublishedYear(updatedBook.getPublishedYear());
+        return bookRepository.save(existingBook);
+    }
+
+    public void deleteBook(Long id) {
+        Book book = getBookById(id);
+        bookRepository.delete(book);
+    }
+}
+```
+
+## 5. BookNotFoundException.java
+
+Package: com.lab4.books_api.service
+
+```java
+package com.lab4.books_api.service;
+
+public class BookNotFoundException extends RuntimeException {
+
+    public BookNotFoundException(Long id) {
+        super("Book not found with ID: " + id);
+    }
+}
+```
+
+## 6. BookController.java
+
+Package: com.lab4.books_api.controller
+
+```java
+package com.lab4.books_api.controller;
+
+import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import com.lab4.books_api.model.Book;
+import com.lab4.books_api.service.BookService;
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/api/books")
+public class BookController {
+
+    private final BookService bookService;
+
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Book>> getAllBooks() {
+        return ResponseEntity.ok(bookService.getAllBooks());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Book> getBookById(@PathVariable Long id) {
+        return ResponseEntity.ok(bookService.getBookById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<Book> createBook(@Valid @RequestBody Book book) {
+        Book savedBook = bookService.createBook(book);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedBook);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Book> updateBook(
+            @PathVariable Long id,
+            @Valid @RequestBody Book book) {
+        return ResponseEntity.ok(bookService.updateBook(id, book));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
+        bookService.deleteBook(id);
+        return ResponseEntity.noContent().build();
+    }
+}
+```
+
+## 7. pom.xml
+
+The project uses Java 17 and Spring Boot 3.4.13.
+
+Dependencies:
+- Spring Boot Web
+- Spring Data JPA
+- Spring Boot Validation
+- PostgreSQL driver
+- Spring Boot Test
+
+## 8. application.properties
+
+Location: src/main/resources/application.properties
+
+```properties
+spring.application.name=books-api
+
+spring.datasource.url=${DB_URL}
+spring.datasource.username=${DB_USERNAME}
+spring.datasource.password=${DB_PASSWORD}
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.open-in-view=false
+```
+
+## API endpoints
+
+| Method | Endpoint | Purpose | Success status |
+|---|---|---|---|
+| GET | /api/books | Get all books | 200 OK |
+| GET | /api/books/{id} | Get one book | 200 OK |
+| POST | /api/books | Create a book | 201 Created |
+| PUT | /api/books/{id} | Update a book | 200 OK |
+| DELETE | /api/books/{id} | Delete a book | 204 No Content |
+
+## Notes
+
+- Book is the entity mapped to the books database table.
+- BookRepository provides database operations using Spring Data JPA.
+- BookService contains the book-related logic.
+- BookController provides the REST API endpoints.
+- BookNotFoundException is used when a book does not exist.
+- GlobalExceptionHandler returns 404 when a requested book is not found.
+- Database settings are read from the DB_URL, DB_USERNAME, and DB_PASSWORD environment variables.
+- Set the environment variables before starting the application.
