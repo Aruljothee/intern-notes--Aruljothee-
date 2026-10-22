@@ -1,10 +1,6 @@
-
 .git
+target
 .venv
-__pycache__
-*.pyc
-error-log.txt
-HELP.md
-target/
-.idea/
-.vscode/
+**pycache**
+\*.pyc
+.env

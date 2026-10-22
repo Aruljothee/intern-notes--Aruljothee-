@@ -4,11 +4,11 @@ FROM maven:3.9-eclipse-temurin-17 AS build
 
 WORKDIR /app
 
-# Copy Maven configuration first for dependency caching
+# Cache Maven dependencies
 COPY pom.xml .
 RUN mvn -q dependency:go-offline
 
-# Copy source code and build the JAR
+# Build the JAR
 COPY src ./src
 RUN mvn -q clean package -DskipTests
 
@@ -17,7 +17,14 @@ FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 
+# Create a non-root user
+RUN useradd -m appuser
+
+# Copy the generated JAR
 COPY --from=build /app/target/*.jar app.jar
+
+# Run as a non-root user
+USER appuser
 
 EXPOSE 8080
 
