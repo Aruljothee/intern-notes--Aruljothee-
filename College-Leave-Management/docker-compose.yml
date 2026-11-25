@@ -20,7 +20,7 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:26.8.1
     container_name: college-leave-keycloak
-    command: start-dev
+    command: start-dev --import-realm
     restart: unless-stopped
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
@@ -28,7 +28,8 @@ services:
     ports:
       - "8180:8080"
     volumes:
-      - ./keycloak-data-backup:/opt/keycloak/data
+      - keycloak_data:/opt/keycloak/data
+      - ./keycloak/realm-import:/opt/keycloak/data/import:ro
 
   backend:
     build:
@@ -43,7 +44,7 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://localhost:8180/realms/campusleave
-      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://host.docker.internal:8180/realms/campusleave/protocol/openid-connect/certs
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://keycloak:8080/realms/campusleave/protocol/openid-connect/certs
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
@@ -66,3 +67,4 @@ services:
 
 volumes:
   college_leave_db_data:
+  keycloak_data:
