@@ -1,0 +1,48 @@
+# Environment variables
+.env
+.env.*
+
+# Java / Maven
+**/target/
+
+# Node.js
+**/node_modules/
+**/dist/
+
+# IDE
+.idea/
+.vscode/
+
+# Logs
+*.log
+
+# Operating system
+.DS_Store
+Thumbs.db
+
+# Keycloak persistent data
+/keycloak-data-backup/
+
+# Old single-container deployment and backups
+/single-container/
+
+# Database backup files
+*.dump
+*.backup
+*.mv.db
+*.trace.db
+
+# Root Node dependencies
+/node_modules/
+
+# Java
+*.class
+*.jar
+*.war
+
+# Environment secrets
+application-local.properties
+
+# Python cache (if applicable)
+__pycache__/
+*.pyc

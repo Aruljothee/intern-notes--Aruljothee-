@@ -1,0 +1,331 @@
+
+/* Main dashboard */
+.student-dashboard {
+  min-height: 100vh;
+  background: #f4f7fc;
+  color: #172554;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navigation bar */
+.dashboard-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 5%;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #172554;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.brand-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #4338f5;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Main content */
+.dashboard-content {
+  flex: 1;
+  width: 100%;
+  max-width: 1100px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* Dashboard welcome section */
+.dashboard-welcome {
+  margin: 20px auto 38px;
+  text-align: center;
+}
+
+.dashboard-eyebrow {
+  color: #4338f5;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.dashboard-welcome h1 {
+  margin: 12px 0 6px;
+  color: #172554;
+  font-size: 36px;
+}
+
+.dashboard-welcome p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.welcome-text {
+  color: #4338f5 !important;
+  font-weight: 600;
+}
+
+/* Dashboard cards */
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.dashboard-card {
+  padding: 26px 20px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+}
+
+.card-icon {
+  display: block;
+  margin-bottom: 14px;
+  font-size: 28px;
+}
+
+.dashboard-card h2 {
+  color: #172554;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.dashboard-card p {
+  min-height: 44px;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* Buttons */
+.dashboard-action {
+  display: inline-block;
+  background: #4338f5;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 13px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.dashboard-action:hover {
+  background: #3730a3;
+}
+
+.logout-button {
+  background: #172554;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background: #263b70;
+}
+
+/* Leave form and other panels */
+.dashboard-panel {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 900px;
+  margin: 12px auto;
+  padding: 32px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.dashboard-panel h1 {
+  margin: 24px 0 8px;
+  color: #172554;
+  font-size: 34px;
+}
+
+.dashboard-panel > p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.back-button {
+  background: #ffffff;
+  color: #172554;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background: #f1f5f9;
+}
+
+/* Leave application form */
+.dashboard-panel .leave-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+  max-width: 520px;
+  margin: 24px auto;
+  text-align: left;
+}
+
+.dashboard-panel .leave-form label {
+  display: block;
+  width: 100%;
+  margin: 8px 0 0;
+  color: #172554;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dashboard-panel .leave-form input,
+.dashboard-panel .leave-form select,
+.dashboard-panel .leave-form textarea {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #172554;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.dashboard-panel .leave-form input:focus,
+.dashboard-panel .leave-form select:focus,
+.dashboard-panel .leave-form textarea:focus {
+  outline: 2px solid #a5b4fc;
+  border-color: #4338f5;
+}
+
+.dashboard-panel .leave-form textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.dashboard-panel .leave-form .dashboard-action {
+  width: 100%;
+  margin-top: 12px;
+  padding: 13px 16px;
+}
+
+.dashboard-panel .leave-form .dashboard-action:hover {
+  opacity: 0.9;
+}
+
+.leave-message {
+  padding: 12px;
+  border-radius: 8px;
+  background: #eef2ff;
+  color: #3730a3;
+  text-align: center;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+/* Submitted leave requests */
+.leave-request-list {
+  display: grid;
+  gap: 16px;
+  margin-top: 24px;
+  text-align: left;
+}
+
+.leave-request-item {
+  margin-top: 16px;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.leave-request-item h2 {
+  margin-top: 0;
+  color: #172554;
+  font-size: 20px;
+}
+
+.leave-request-item p {
+  color: #475569;
+  line-height: 1.6;
+}
+
+/* Footer */
+.dashboard-footer {
+  padding: 24px 16px;
+  color: #64748b;
+  font-size: 12px;
+  text-align: center;
+}
+
+/* Responsive layout for tablets and phones */
+@media (max-width: 800px) {
+  .dashboard-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-content {
+    padding: 28px 18px;
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-navbar {
+    padding: 12px 16px;
+  }
+
+  .brand {
+    font-size: 18px;
+  }
+
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-welcome h1 {
+    font-size: 29px;
+  }
+
+  .dashboard-panel {
+    padding: 22px 16px;
+  }
+
+  .dashboard-panel h1 {
+    font-size: 28px;
+  }
+
+  .dashboard-panel .leave-form {
+    max-width: 100%;
+  }
+}
