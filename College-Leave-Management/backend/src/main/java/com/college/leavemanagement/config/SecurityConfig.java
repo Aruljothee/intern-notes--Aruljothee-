@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,13 +20,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
-import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
@@ -35,87 +35,103 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http)
-            throws Exception {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http) throws Exception {
 
         http
-            .cors(Customizer.withDefaults())
+            .cors(cors -> cors.configurationSource(
+                    corsConfigurationSource()))
+
             .csrf(csrf -> csrf.disable())
+
             .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                    .sessionCreationPolicy(
+                            SessionCreationPolicy.STATELESS))
+
             .authorizeHttpRequests(auth -> auth
+
+                // Browser preflight requests
+                .requestMatchers(HttpMethod.OPTIONS, "/**")
+                .permitAll()
+
+                // Swagger and OpenAPI
                 .requestMatchers(
-                    HttpMethod.OPTIONS, "/**"
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+                        "/v3/api-docs/**",
+                        "/v3/api-docs"
                 ).permitAll()
 
-                // Allow Swagger UI and API documentation
-                .requestMatchers(
-                    "/swagger-ui.html",
-                    "/swagger-ui/**",
-                    "/v3/api-docs",
-                    "/v3/api-docs/**"
-                ).permitAll()
+                // Authentication endpoints
+                .requestMatchers("/api/auth/**")
+                .permitAll()
 
-                // Public authentication endpoints
-                .requestMatchers("/api/auth/**").permitAll()
-
-                // Admin-only endpoints
+                // Only ADMIN can create student accounts
                 .requestMatchers(
-                    HttpMethod.GET,
-                    "/api/leaves/admin"
+                        HttpMethod.POST,
+                        "/api/admin/users"
+                ).hasRole("ADMIN")
+
+                // Admin leave management
+                .requestMatchers(
+                        HttpMethod.GET,
+                        "/api/leaves/admin"
                 ).hasRole("ADMIN")
 
                 .requestMatchers(
-                    HttpMethod.PUT,
-                    "/api/leaves/*/status"
+                        HttpMethod.PUT,
+                        "/api/leaves/*/status"
                 ).hasRole("ADMIN")
 
-                // Leave APIs require authentication
-                .requestMatchers("/api/leaves/**").authenticated()
+                // All leave APIs require authentication
+                .requestMatchers("/api/leaves/**")
+                .authenticated()
 
-                // All other requests retain authentication
-                .anyRequest().authenticated()
+                // All remaining endpoints require authentication
+                .anyRequest()
+                .authenticated()
             )
+
+            // Keycloak JWT authentication
             .oauth2ResourceServer(oauth2 -> oauth2
-                .jwt(jwt -> jwt.jwtAuthenticationConverter(
-                    jwtAuthenticationConverter()
-                ))
+                .jwt(jwt -> jwt
+                    .jwtAuthenticationConverter(
+                            jwtAuthenticationConverter())
+                )
             );
 
         return http.build();
     }
 
+    // Convert Keycloak realm roles into Spring Security roles
     @Bean
-    public Converter<Jwt, ? extends AbstractAuthenticationToken>
+    public Converter<Jwt, AbstractAuthenticationToken>
             jwtAuthenticationConverter() {
 
         return jwt -> {
+
             Collection<GrantedAuthority> authorities =
-                new ArrayList<>();
-
-            JwtGrantedAuthoritiesConverter scopeConverter =
-                new JwtGrantedAuthoritiesConverter();
-
-            Collection<GrantedAuthority> scopeAuthorities =
-                scopeConverter.convert(jwt);
-
-            if (scopeAuthorities != null) {
-                authorities.addAll(scopeAuthorities);
-            }
+                    new ArrayList<>();
 
             Map<String, Object> realmAccess =
-                jwt.getClaimAsMap("realm_access");
+                    jwt.getClaim("realm_access");
 
             if (realmAccess != null) {
+
                 Object rolesObject = realmAccess.get("roles");
 
                 if (rolesObject instanceof Collection<?> roles) {
+
                     for (Object role : roles) {
-                        if ("ADMIN".equals(role)
-                                || "STUDENT".equals(role)) {
+
+                        String roleName = role.toString();
+
+                        if (roleName.equals("ADMIN")
+                                || roleName.equals("STUDENT")) {
+
                             authorities.add(
                                 new SimpleGrantedAuthority(
-                                    "ROLE_" + role
+                                    "ROLE_" + roleName
                                 )
                             );
                         }
@@ -123,46 +139,57 @@ public class SecurityConfig {
                 }
             }
 
-            String principalName =
-                jwt.getClaimAsString("preferred_username");
+            String username =
+                    jwt.getClaimAsString("preferred_username");
+
+            if (username == null || username.isBlank()) {
+                username = jwt.getSubject();
+            }
 
             return new JwtAuthenticationToken(
-                jwt,
-                authorities,
-                principalName != null
-                    ? principalName
-                    : jwt.getSubject()
+                    jwt,
+                    authorities,
+                    username
             );
         };
     }
 
+    // CORS configuration for React frontend
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+
         CorsConfiguration configuration =
-            new CorsConfiguration();
+                new CorsConfiguration();
 
         configuration.setAllowedOrigins(
-            List.of("http://localhost:5173")
+                List.of("http://localhost:5173")
         );
 
         configuration.setAllowedMethods(
-            List.of(
-                "GET", "POST", "PUT",
-                "DELETE", "OPTIONS"
-            )
+                List.of(
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "DELETE",
+                        "OPTIONS"
+                )
         );
 
         configuration.setAllowedHeaders(
-            List.of("Authorization", "Content-Type")
+                List.of(
+                        "Authorization",
+                        "Content-Type"
+                )
         );
 
         configuration.setAllowCredentials(false);
 
         UrlBasedCorsConfigurationSource source =
-            new UrlBasedCorsConfigurationSource();
+                new UrlBasedCorsConfigurationSource();
 
         source.registerCorsConfiguration(
-            "/**", configuration
+                "/**",
+                configuration
         );
 
         return source;

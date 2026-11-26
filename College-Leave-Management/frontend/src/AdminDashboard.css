@@ -111,6 +111,7 @@
   padding: 28px;
   border: 1px solid #e2e8f0;
   border-radius: 16px;
+  margin-bottom: 24px;
 }
 
 .admin-panel-heading {
@@ -150,6 +151,7 @@
   color: #3730a3;
   padding: 12px;
   border-radius: 8px;
+  overflow-wrap: anywhere;
 }
 
 .admin-request-list {
@@ -229,12 +231,59 @@
   background: #dc2626;
 }
 
+/* Student Registration Form */
+
+.student-create-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.student-create-form input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 15px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  color: #172554;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.student-create-form input:focus {
+  border-color: #4938ff;
+  box-shadow: 0 0 0 3px rgba(73, 56, 255, 0.1);
+}
+
+.student-create-form input::placeholder {
+  color: #94a3b8;
+}
+
+.student-create-form button {
+  width: fit-content;
+  min-width: 150px;
+  font-weight: 600;
+}
+
+.student-create-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.student-create-form + .admin-message {
+  margin-top: 18px;
+}
+
 .admin-footer {
   padding: 24px;
   text-align: center;
   color: #64748b;
   font-size: 12px;
 }
+
+/* Responsive Design */
 
 @media (max-width: 700px) {
   .admin-statistics {
@@ -255,5 +304,13 @@
 
   .admin-request-heading {
     flex-direction: column;
+  }
+
+  .student-create-form {
+    grid-template-columns: 1fr;
+  }
+
+  .student-create-form button {
+    width: 100%;
   }
 }

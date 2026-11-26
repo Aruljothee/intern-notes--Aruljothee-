@@ -3,7 +3,8 @@ import { useCallback, useEffect, useState } from 'react'
 import './AdminDashboard.css'
 import keycloak from './keycloak'
 
-const API_URL = '/api/leaves';
+const API_URL = '/api/leaves'
+const STUDENT_API_URL = '/api/admin/users'
 
 // Send the Keycloak access token with every protected API request.
 async function authorizedFetch(url, options = {}) {
@@ -11,7 +12,7 @@ async function authorizedFetch(url, options = {}) {
     throw new Error('Your session has expired. Please log in again.')
   }
 
-  const refreshed = await keycloak.updateToken(30)
+  await keycloak.updateToken(30)
 
   if (!keycloak.token) {
     throw new Error('No access token is available. Please log in again.')
@@ -32,6 +33,19 @@ function AdminDashboard({ email, onLogout }) {
   const [message, setMessage] = useState('')
   const [updatingId, setUpdatingId] = useState(null)
 
+  // Student registration states
+  const [studentForm, setStudentForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+  })
+
+  const [creatingStudent, setCreatingStudent] = useState(false)
+  const [studentMessage, setStudentMessage] = useState('')
+  const [studentError, setStudentError] = useState(false)
+
+  // Fetch all leave requests
   const fetchRequests = useCallback(async () => {
     setLoading(true)
     setMessage('')
@@ -70,6 +84,7 @@ function AdminDashboard({ email, onLogout }) {
     fetchRequests()
   }, [fetchRequests])
 
+  // Update leave request status
   async function updateStatus(id, status) {
     setUpdatingId(id)
     setMessage('')
@@ -119,6 +134,63 @@ function AdminDashboard({ email, onLogout }) {
     }
   }
 
+  // Handle student form field changes
+  function handleStudentChange(event) {
+    const { name, value } = event.target
+
+    setStudentForm((previous) => ({
+      ...previous,
+      [name]: value,
+    }))
+  }
+
+  // Create a new student using the Admin API
+  async function createStudent(event) {
+    event.preventDefault()
+
+    setCreatingStudent(true)
+    setStudentMessage('')
+    setStudentError(false)
+
+    try {
+      const response = await authorizedFetch(STUDENT_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(studentForm),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(
+          data.message ||
+          `Student creation failed (HTTP ${response.status}).`
+        )
+      }
+
+      setStudentMessage(
+        `Student ${data.email} created successfully!`
+      )
+
+      setStudentForm({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+      })
+    } catch (error) {
+      setStudentError(true)
+      setStudentMessage(
+        error.message || 'Unable to create student.'
+      )
+    } finally {
+      setCreatingStudent(false)
+    }
+  }
+
+  // Dashboard statistics
   const pendingCount = requests.filter(
     (request) => request.status === 'PENDING'
   ).length
@@ -133,6 +205,8 @@ function AdminDashboard({ email, onLogout }) {
 
   return (
     <div className="admin-dashboard">
+
+      {/* Navigation bar */}
       <header className="admin-navbar">
         <div className="admin-brand">
           <span className="admin-brand-icon">CL</span>
@@ -150,6 +224,8 @@ function AdminDashboard({ email, onLogout }) {
       </header>
 
       <main className="admin-content">
+
+        {/* Welcome section */}
         <section className="admin-welcome">
           <span className="admin-eyebrow">
             ADMINISTRATION PORTAL
@@ -162,11 +238,17 @@ function AdminDashboard({ email, onLogout }) {
           </p>
 
           <p className="admin-email">
-            Signed in as: {email || keycloak.tokenParsed?.email || keycloak.tokenParsed?.preferred_username || 'Admin'}
+            Signed in as:{' '}
+            {email ||
+              keycloak.tokenParsed?.email ||
+              keycloak.tokenParsed?.preferred_username ||
+              'Admin'}
           </p>
         </section>
 
+        {/* Dashboard statistics */}
         <section className="admin-statistics">
+
           <article className="admin-stat-card">
             <span>Total Requests</span>
             <strong>{requests.length}</strong>
@@ -186,9 +268,91 @@ function AdminDashboard({ email, onLogout }) {
             <span>Rejected</span>
             <strong>{rejectedCount}</strong>
           </article>
+
         </section>
 
+        {/* Create student section */}
         <section className="admin-requests-panel">
+
+          <div className="admin-panel-heading">
+            <div>
+              <h2>Create Student</h2>
+              <p>
+                Register a new student in CampusLeave.
+              </p>
+            </div>
+          </div>
+
+          <form
+            className="student-create-form"
+            onSubmit={createStudent}
+          >
+
+            <input
+              type="text"
+              name="firstName"
+              placeholder="First Name"
+              value={studentForm.firstName}
+              onChange={handleStudentChange}
+              required
+            />
+
+            <input
+              type="text"
+              name="lastName"
+              placeholder="Last Name"
+              value={studentForm.lastName}
+              onChange={handleStudentChange}
+              required
+            />
+
+            <input
+              type="email"
+              name="email"
+              placeholder="Student Email"
+              value={studentForm.email}
+              onChange={handleStudentChange}
+              required
+            />
+
+            <input
+              type="password"
+              name="password"
+              placeholder="Student Password"
+              value={studentForm.password}
+              onChange={handleStudentChange}
+              required
+            />
+
+            <button
+              type="submit"
+              className="admin-refresh"
+              disabled={creatingStudent}
+            >
+              {creatingStudent
+                ? 'Creating Student...'
+                : 'Create Student'}
+            </button>
+
+          </form>
+
+          {studentMessage && (
+            <p
+              className="admin-message"
+              role="status"
+              style={{
+                color: studentError ? 'red' : 'green',
+              }}
+            >
+              {studentMessage}
+            </p>
+          )}
+
+        </section>
+
+        {/* Leave requests section */}
+        <section className="admin-requests-panel">
+
           <div className="admin-panel-heading">
             <div>
               <h2>Student Leave Requests</h2>
@@ -222,12 +386,15 @@ function AdminDashboard({ email, onLogout }) {
               No leave requests found, or the requests could not be loaded.
             </p>
           ) : (
+
             <div className="admin-request-list">
+
               {requests.map((request) => (
                 <article
                   className="admin-request-card"
                   key={request.id}
                 >
+
                   <div className="admin-request-heading">
                     <div>
                       <h3>{request.leaveType}</h3>
@@ -247,6 +414,7 @@ function AdminDashboard({ email, onLogout }) {
                   </div>
 
                   <div className="admin-request-details">
+
                     <p>
                       <strong>Request ID:</strong> {request.id}
                     </p>
@@ -262,10 +430,12 @@ function AdminDashboard({ email, onLogout }) {
                     <p>
                       <strong>Reason:</strong> {request.reason}
                     </p>
+
                   </div>
 
                   {request.status === 'PENDING' && (
                     <div className="admin-request-actions">
+
                       <button
                         className="approve-button"
                         type="button"
@@ -291,18 +461,24 @@ function AdminDashboard({ email, onLogout }) {
                           ? 'Updating...'
                           : 'Reject'}
                       </button>
+
                     </div>
                   )}
+
                 </article>
               ))}
+
             </div>
           )}
+
         </section>
+
       </main>
 
       <footer className="admin-footer">
         © 2026 CampusLeave · College Leave Management System
       </footer>
+
     </div>
   )
 }

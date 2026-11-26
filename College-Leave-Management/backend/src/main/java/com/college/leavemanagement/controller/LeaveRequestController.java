@@ -25,21 +25,21 @@ import com.college.leavemanagement.dto.LeaveStatusUpdateRequest;
 import com.college.leavemanagement.dto.StatusUpdateResponse;
 import com.college.leavemanagement.entity.AppUser;
 import com.college.leavemanagement.entity.LeaveRequest;
-import com.college.leavemanagement.repository.AppUserRepository;
 import com.college.leavemanagement.service.LeaveRequestService;
+import com.college.leavemanagement.service.StudentProvisioningService;
 
 @RestController
 @RequestMapping("/api/leaves")
 public class LeaveRequestController {
 
     private final LeaveRequestService leaveRequestService;
-    private final AppUserRepository appUserRepository;
+    private final StudentProvisioningService provisioningService;
 
     public LeaveRequestController(
             LeaveRequestService leaveRequestService,
-            AppUserRepository appUserRepository) {
+            StudentProvisioningService provisioningService) {
         this.leaveRequestService = leaveRequestService;
-        this.appUserRepository = appUserRepository;
+        this.provisioningService = provisioningService;
     }
 
     // 1. Submit leave request
@@ -48,8 +48,7 @@ public class LeaveRequestController {
             @RequestBody LeaveRequestCreateRequest request,
             Authentication authentication) {
 
-        String email = authenticatedEmail(authentication);
-        AppUser student = findStudent(email);
+        AppUser student = authenticatedStudent(authentication);
 
         String leaveType = request.leaveType();
         String reason = request.reason();
@@ -111,8 +110,7 @@ public class LeaveRequestController {
     public ResponseEntity<List<LeaveRequestResponse>>
             getStudentLeaveRequests(Authentication authentication) {
 
-        String email = authenticatedEmail(authentication);
-        AppUser student = findStudent(email);
+        AppUser student = authenticatedStudent(authentication);
 
         List<LeaveRequestResponse> result =
                 leaveRequestService
@@ -131,12 +129,10 @@ public class LeaveRequestController {
     }
 
     // 3. Get all leave requests (Admin)
-        // 3. Get all leave requests (Admin)
-@GetMapping("/admin")
-public ResponseEntity<List<AdminLeaveRequestResponse>>
-        getAllLeaveRequests() {
+    @GetMapping("/admin")
+    public ResponseEntity<List<AdminLeaveRequestResponse>>
+            getAllLeaveRequests() {
 
-    try {
         List<LeaveRequest> requests =
                 leaveRequestService.getAllLeaveRequests();
 
@@ -153,13 +149,7 @@ public ResponseEntity<List<AdminLeaveRequestResponse>>
                         .toList();
 
         return ResponseEntity.ok(result);
-
-    } catch (Exception e) {
-        throw new ResponseStatusException(
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                "Unable to fetch leave requests");
     }
-}
 
     // 4. Update leave status (Admin)
     @PutMapping("/{id}/status")
@@ -191,8 +181,9 @@ public ResponseEntity<List<AdminLeaveRequestResponse>>
         }
     }
 
-    // 5. Get authenticated email from Keycloak JWT
-    private String authenticatedEmail(Authentication authentication) {
+    // 5. Authenticate and provision student
+    private AppUser authenticatedStudent(
+            Authentication authentication) {
 
         if (!(authentication instanceof JwtAuthenticationToken jwtAuth)) {
             throw new ResponseStatusException(
@@ -200,31 +191,7 @@ public ResponseEntity<List<AdminLeaveRequestResponse>>
                     "A valid Keycloak access token is required");
         }
 
-        String email = jwtAuth.getToken().getClaimAsString("email");
-
-        if (email == null || email.isBlank()) {
-            throw new ResponseStatusException(
-                    HttpStatus.FORBIDDEN,
-                    "Your Keycloak account must have an email address");
-        }
-
-        return email.trim().toLowerCase();
-    }
-
-    // 6. Find student in database
-    private AppUser findStudent(String email) {
-
-        AppUser student = appUserRepository.findByEmail(email)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.FORBIDDEN,
-                        "No matching student account exists in the database"));
-
-        if (!"STUDENT".equalsIgnoreCase(student.getRole())) {
-            throw new ResponseStatusException(
-                    HttpStatus.FORBIDDEN,
-                    "This account is not registered as a student");
-        }
-
-        return student;
+        return provisioningService.provisionStudent(
+                jwtAuth.getToken());
     }
 }
